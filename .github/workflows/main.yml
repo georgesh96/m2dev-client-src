@@ -24,9 +24,11 @@ jobs:
           cmake --build . --config RelWithDebInfo
 
       - name: Collect outputs
+        shell: pwsh
         run: |
           mkdir _output
-          cp build/bin/* _output
+          Get-ChildItem build/bin -Recurse -Include *.exe,*.dll | Copy-Item -Destination _output
+          Get-ChildItem _output
 
       - name: Upload
         uses: actions/upload-artifact@v4
